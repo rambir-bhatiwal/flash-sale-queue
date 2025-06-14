@@ -31,7 +31,6 @@ echo "🔁 Resetting Redis keys...\n";
 
 // Delete Redis stock cache
 $redis->del('flash_sale_stock:1');
-
 // Delete Redis queue
 $redis->del('flash_sale_queue:1');
 
@@ -40,5 +39,21 @@ $cartKeys = $redis->keys('cart_item:*:1');
 foreach ($cartKeys as $key) {
     $redis->del($key);
 }
+
+// Helper function to bulk delete by pattern
+function deleteRedisKeysByPattern($redis, $pattern, $label)
+{
+    $keys = $redis->keys($pattern);
+    foreach ($keys as $key) {
+        $redis->del($key);
+    }
+    echo "✅ Deleted keys matching pattern: {$pattern} ({$label})\n";
+}
+
+// Delete all Redis flash sale keys
+deleteRedisKeysByPattern($redis, 'flash_sale_stock:*', 'stock');
+deleteRedisKeysByPattern($redis, 'flash_sale_queue:*', 'queue');
+deleteRedisKeysByPattern($redis, 'cart_item:*', 'carts');
+
 
 echo "✅ Redis flash sale keys cleared.\n";
