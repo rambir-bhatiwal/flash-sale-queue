@@ -45,7 +45,7 @@ This project solves the **Flash Sale Crisis** scenario using a Redis-backed queu
 ### 1. Clone the Project
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/rambir-bhatiwal/flash-sale-queue.git
 cd backend-assessment
 
 ```
